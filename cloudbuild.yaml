@@ -1,0 +1,3 @@
+steps:
+  - name: 'gcr.io/cloud-builder/docker'
+    args: ['build','-t','us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/fcr-application:$SHORT_SHA','-f','/fcr-application/Dockerfile','.']

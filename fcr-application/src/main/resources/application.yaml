@@ -1,0 +1,15 @@
+server.port: 7002
+server.error.include-message: always
+
+fcr-timeouts:
+  balance-inquiry: 10
+  upi-payment: 100
+
+logging:
+  level:
+    root: INFO
+    com.homelab: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+
