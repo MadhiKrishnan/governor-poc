@@ -1,4 +1,4 @@
-server.port: 7002
+server.port: 8080
 server.error.include-message: always
 
 fcr-timeouts:

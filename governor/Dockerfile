@@ -1,12 +1,10 @@
-FROM maven:3.6.0-jdk-11-slim AS build
-LABEL maintainer=”madhi.krishnan@fyndna.com”
+FROM tomcat
 
-COPY src /governor/src
-COPY pom.xml /governor
-RUN mvn -f /governor/pom.xml clean package
+LABEL maintainer=”madhi.krishnan@fyndna.com”
+ARG WAR_FILE=GOVERNOR_WAR
 
 FROM tomcat
-COPY --from=build /governor/target/governor.war /usr/local/tomcat/webapps/
-EXPOSE 8080
+COPY  ${WAR_FILE} /usr/local/tomcat/webapps/
+EXPOSE 9090
 
 CMD ["catalina.sh", "run"]

@@ -14,7 +14,7 @@
 	<name>fcr-application</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -38,6 +38,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -54,6 +55,23 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<!--<plugin>
+				<groupId>com.fyndna.governor</groupId>
+				<artifactId>governor</artifactId>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>https://storage.cloud.google.com/governor-poc-bucket/governor.war?authuser=2</url>
+							<outputFileName>governor.war</outputFileName>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>-->
 		</plugins>
 	</build>
 

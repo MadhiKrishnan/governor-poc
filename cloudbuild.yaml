@@ -1,3 +1,77 @@
 steps:
-  - name: 'gcr.io/cloud-builder/docker'
-    args: ['build','-t','us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/fcr-application:$SHORT_SHA','-f','/fcr-application/Dockerfile','.']
+  - name: 'maven:3-jdk-8'
+    args:
+      - package
+      - '-Dmaven.test.skip=true'
+    dir: governor
+    entrypoint: mvn
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/governor:$SHORT_SHA'
+      - '--build-arg=WAR_FILE=target/governor.war'
+      - '-f'
+      - governor/Dockerfile
+      - .
+  - name: 'maven:3-jdk-8'
+    args:
+      - package
+      - '-Dmaven.test.skip=true'
+    dir: fcr-application
+    entrypoint: mvn
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '-t'
+      - >-
+        us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/fcr-application:$SHORT_SHA
+      - >-
+        --build-arg=JAR_FILE=fcr-application/target/fcr-application-0.0.1-SNAPSHOT.jar
+      - '-f'
+      - fcr-application/Dockerfile
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/governor:$SHORT_SHA'
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - >-
+        us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/fcr-application:$SHORT_SHA
+  - name: google/cloud-sdk
+    args:
+      - gcloud
+      - run
+      - deploy
+      - governor
+      - >-
+        --image=us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/governor:$SHORT_SHA
+      - '--region'
+      - us-central1
+      - '--platform'
+      - managed
+      - '--allow-unauthenticated'
+  - name: google/cloud-sdk
+    args:
+      - gcloud
+      - run
+      - deploy
+      - fcr-application
+      - >-
+        --image=us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/fcr-application:$SHORT_SHA
+      - '--region'
+      - us-central1
+      - '--platform'
+      - managed
+      - '--allow-unauthenticated'
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/governor:$SHORT_SHA'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/fcr-application:$SHORT_SHA'
+artifacts:
+  objects:
+    location: 'gs://governor-poc-bucket/'
+    paths:
+      - governor/target/governor.war
+      - fcr-application/target/fcr-application-0.0.1-SNAPSHOT.jar
