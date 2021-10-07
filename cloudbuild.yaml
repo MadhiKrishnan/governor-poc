@@ -1,10 +1,12 @@
 steps:
   - name: 'maven:3-jdk-8'
-    args:
-      - package
-      - '-Dmaven.test.skip=true'
     dir: governor
     entrypoint: mvn
+    args:
+      - package
+      - deploy
+      - release
+
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -14,12 +16,14 @@ steps:
       - '-f'
       - governor/Dockerfile
       - .
+
   - name: 'maven:3-jdk-8'
     args:
       - package
-      - '-Dmaven.test.skip=true'
-    dir: fcr-application
+      - deploy
+      - release
     entrypoint: mvn
+
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -35,11 +39,13 @@ steps:
     args:
       - push
       - 'us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/governor:$SHORT_SHA'
+      
   - name: gcr.io/cloud-builders/docker
     args:
       - push
       - >-
         us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/fcr-application:$SHORT_SHA
+
   - name: google/cloud-sdk
     args:
       - gcloud
@@ -53,6 +59,7 @@ steps:
       - '--platform'
       - managed
       - '--allow-unauthenticated'
+
   - name: google/cloud-sdk
     args:
       - gcloud
@@ -66,12 +73,14 @@ steps:
       - '--platform'
       - managed
       - '--allow-unauthenticated'
+
 images:
   - 'us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/governor:$SHORT_SHA'
   - 'us-central1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/fcr-application:$SHORT_SHA'
+
 artifacts:
   objects:
-    location: 'gs://governor-poc-bucket/'
+    location: 'gs://governor-poc-storage/'
     paths:
       - governor/target/governor.war
       - fcr-application/target/fcr-application-0.0.1-SNAPSHOT.jar
