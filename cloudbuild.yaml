@@ -5,7 +5,6 @@ steps:
     args:
       - package
       - deploy
-      - release
 
   - name: gcr.io/cloud-builders/docker
     args:
@@ -18,11 +17,12 @@ steps:
       - .
 
   - name: 'maven:3-jdk-8'
+    dir: fcr-application
+    entrypoint: mvn
     args:
       - package
       - deploy
-      - release
-    entrypoint: mvn
+
 
   - name: gcr.io/cloud-builders/docker
     args:
