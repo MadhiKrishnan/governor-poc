@@ -45,4 +45,9 @@ public class UPIController {
         long timeout = Integer.parseInt(env.getProperty("fcr-timeouts." + apiName));
         return timeout;
     }
+
+    @GetMapping("/printMessage")
+    public String printMessage(){
+        return "Message";
+    }
 }
