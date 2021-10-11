@@ -7,18 +7,18 @@
   <distributionManagement>
     <snapshotRepository>
       <id>artifact-registry</id>
-      <url>artifactregistry://us-central1-maven.pkg.dev/governor-poc-328219/maven-repo</url>
+      <url>artifactregistry://us-central1-maven.pkg.dev/governor-on-cloud/fyndna-maven-repo</url>
     </snapshotRepository>
     <repository>
       <id>artifact-registry</id>
-      <url>artifactregistry://us-central1-maven.pkg.dev/governor-poc-328219/maven-repo</url>
+      <url>artifactregistry://us-central1-maven.pkg.dev/governor-on-cloud/fyndna-maven-repo</url>
     </repository>
   </distributionManagement>
 
   <repositories>
     <repository>
       <id>artifact-registry</id>
-      <url>artifactregistry://us-central1-maven.pkg.dev/governor-poc-328219/maven-repo</url>
+      <url>artifactregistry://us-central1-maven.pkg.dev/governor-on-cloud/fyndna-maven-repo</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -27,6 +27,7 @@
       </snapshots>
     </repository>
   </repositories>
+
 
   <groupId>org.example</groupId>
   <artifactId>governor</artifactId>
@@ -50,12 +51,6 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>3.0.1</version>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.fyndna</groupId>
-      <artifactId>fcr-application</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
