@@ -4,21 +4,21 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-<distributionManagement>
+  <distributionManagement>
     <snapshotRepository>
       <id>artifact-registry</id>
-      <url>artifactregistry://us-central1-maven.pkg.dev/governor-on-cloud/fyndna-maven-repo</url>
+      <url>artifactregistry://us-central1-maven.pkg.dev/governor-poc-328219/maven-repo</url>
     </snapshotRepository>
     <repository>
       <id>artifact-registry</id>
-      <url>artifactregistry://us-central1-maven.pkg.dev/governor-on-cloud/fyndna-maven-repo</url>
+      <url>artifactregistry://us-central1-maven.pkg.dev/governor-poc-328219/maven-repo</url>
     </repository>
   </distributionManagement>
 
   <repositories>
     <repository>
       <id>artifact-registry</id>
-      <url>artifactregistry://us-central1-maven.pkg.dev/governor-on-cloud/fyndna-maven-repo</url>
+      <url>artifactregistry://us-central1-maven.pkg.dev/governor-poc-328219/maven-repo</url>
       <releases>
         <enabled>true</enabled>
       </releases>
